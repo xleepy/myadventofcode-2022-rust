@@ -5,7 +5,7 @@ use std::fs::File;
 use std::io::{self, BufRead};
 
 pub fn run() {
-    let path = fs::canonicalize("./src/first/1.txt").expect("File not found");
+    let path = fs::canonicalize("./src/day1/1.txt").expect("File not found");
     let file = File::open(path).expect("Cannot open file");
     let lines = io::BufReader::new(file).lines();
     let mut elves: HashMap<i32, i32> = HashMap::new();
@@ -24,7 +24,10 @@ pub fn run() {
             }
         }
     }
+    let mut collected: Vec<(i32, i32)> = elves.into_iter().collect();
+    collected.sort_by(|x, y| y.1.cmp(&x.1));
+    collected.truncate(3);
+    let sum_of_three: i32 = collected.iter().map(|v| v.1).sum();
 
-    let max = elves.iter().max_by(|x, y| x.1.cmp(y.1));
-    print!("{:?}", max);
+    println!("{:?}", sum_of_three);
 }
