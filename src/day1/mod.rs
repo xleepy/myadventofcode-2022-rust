@@ -18,7 +18,7 @@ pub fn run() {
         }
     }
     let mut collected: Vec<i32> = elves.clone();
-    collected.sort();
+    collected.sort_by(|x,y| y.cmp(x));
     collected.truncate(3);
     let sum_of_three: i32 = collected.iter().sum();
 
