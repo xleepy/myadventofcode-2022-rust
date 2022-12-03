@@ -1,8 +1,8 @@
-use super::read_file;
+use super::filereader;
 use std::vec::Vec;
 
 pub fn run() {
-    let lines = read_file::read_lines("./src/day1/1.txt").expect("Error while file parsing");
+    let lines = filereader::read_lines("./src/day1/1.txt").expect("Error while file parsing");
     let mut elves: Vec<i32> = Vec::new();
     let mut current_sum = 0;
     for line in lines {
@@ -18,7 +18,7 @@ pub fn run() {
         }
     }
     let mut collected: Vec<i32> = elves.clone();
-    collected.sort_by(|x,y| y.cmp(x));
+    collected.sort_by(|x, y| y.cmp(x));
     collected.truncate(3);
     let sum_of_three: i32 = collected.iter().sum();
 

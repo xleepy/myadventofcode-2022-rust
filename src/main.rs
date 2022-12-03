@@ -1,6 +1,8 @@
 mod day1;
-mod read_file;
+mod day2;
+mod filereader;
 
 fn main() {
-    day1::run()
+    day1::run();
+    day2::run();
 }
