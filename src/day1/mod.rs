@@ -1,12 +1,8 @@
-use std::fs;
-use std::fs::File;
-use std::io::{self, BufRead};
+use super::read_file;
 use std::vec::Vec;
 
 pub fn run() {
-    let path = fs::canonicalize("./src/day1/1.txt").expect("File not found");
-    let file = File::open(path).expect("Cannot open file");
-    let lines = io::BufReader::new(file).lines();
+    let lines = read_file::read_lines("./src/day1/1.txt").expect("Error while file parsing");
     let mut elves: Vec<i32> = Vec::new();
     let mut current_sum = 0;
     for line in lines {
@@ -26,5 +22,5 @@ pub fn run() {
     collected.truncate(3);
     let sum_of_three: i32 = collected.iter().sum();
 
-    println!("{:?}", sum_of_three);
+    println!("day1: {:?}", sum_of_three);
 }
