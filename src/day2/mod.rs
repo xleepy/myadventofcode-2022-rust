@@ -1,21 +1,25 @@
 use super::filereader;
 use std::collections::HashMap;
 
+// Rock 1, Paper 2, Scissors 3
+
+// Rock > Scissors
+// Paper > Rock
+// Scissors > Paper
+
 fn play_game(player_shape_value: &i32, opponent_shape_value: &i32) -> i32 {
     // draw
     if player_shape_value == opponent_shape_value {
         return player_shape_value + 3;
     }
-    // won
-    if player_shape_value > opponent_shape_value {
+    let mut win_combos = [(1, 3), (2, 1), (3, 2)].iter();
+    let is_combination_found =
+        win_combos.find(|combo| combo.0 == *player_shape_value && combo.1 == *opponent_shape_value);
+    if is_combination_found.is_some() {
         return player_shape_value + 6;
-    }
-    // lost
-    if player_shape_value < opponent_shape_value {
+    } else {
         return player_shape_value.clone();
     }
-    // unexpected result
-    return 0;
 }
 
 pub fn run() {
