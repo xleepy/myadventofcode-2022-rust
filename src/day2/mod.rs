@@ -2,15 +2,19 @@ use super::filereader;
 use std::collections::HashMap;
 
 fn play_game(player_shape_value: &i32, opponent_shape_value: &i32) -> i32 {
+    // draw
     if player_shape_value == opponent_shape_value {
         return player_shape_value + 3;
     }
+    // won
     if player_shape_value > opponent_shape_value {
         return player_shape_value + 6;
     }
+    // lost
     if player_shape_value < opponent_shape_value {
         return player_shape_value.clone();
     }
+    // unexpected result
     return 0;
 }
 
