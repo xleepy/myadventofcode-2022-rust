@@ -1,49 +1,67 @@
 use super::filereader;
 use std::collections::HashMap;
 
-// Rock 1, Paper 2, Scissors 3
+// A -> Rock 1, B -> Paper 2, C -> Scissors 3
 
 // Rock > Scissors
 // Paper > Rock
 // Scissors > Paper
 
-fn play_game(player_shape_value: &i32, opponent_shape_value: &i32) -> i32 {
-    // draw
-    if player_shape_value == opponent_shape_value {
-        return player_shape_value + 3;
-    }
-    let mut win_combos = [(1, 3), (2, 1), (3, 2)].iter();
+// pt2
+// X lose
+// Y draw
+// Z win
 
-    let is_combination_found = win_combos
-        .find(|combo| combo.0 == *player_shape_value && combo.1 == *opponent_shape_value)
-        .is_some();
+// X should lose
+// A > C
+// B > A
+// C > B
 
-    if is_combination_found {
-        return player_shape_value + 6;
-    } else {
-        return player_shape_value.clone();
-    }
+// Y draw
+// A === A
+// B === B
+// C === C
+
+// Z Win
+// A < B
+// B < C
+// C < A
+
+fn find_combo(combo: Vec<(i32, i32)>, predict: i32) -> (i32, i32) {
+    return combo
+        .clone()
+        .into_iter()
+        .find(|x| x.0 == predict)
+        .expect("Cannot find combo");
 }
 
 pub fn run() {
     let lines = filereader::read_lines("./src/day2/input.txt").expect("Cannot parse file");
-    let shapes_map = HashMap::from([("X", "A"), ("Y", "B"), ("Z", "C")]);
     let results_map = HashMap::from([("A", 1), ("B", 2), ("C", 3)]);
+    let lose_combos = Vec::from([(1, 3), (2, 1), (3, 2)]);
+    let win_combos = Vec::from([(1, 2), (2, 3), (3, 1)]);
+
     let mut all_games_result = 0;
     for line in lines {
         if line.is_ok() {
             let row = line.unwrap();
             let columns: Vec<&str> = row.split(" ").collect();
-            let player_shape = shapes_map
-                .get(columns.last().unwrap())
-                .expect("Cannot find shape");
+            let game_strategy = columns.get(1).expect("cannot find strategy").trim();
 
-            let player_shape_value = results_map.get(player_shape).unwrap();
-            let opponent_shape_value = results_map
+            let opponent_value = results_map
                 .get(columns.first().unwrap())
-                .expect("Canno parse value");
+                .expect("Cannot get value");
+            let mut result = 0;
+            if game_strategy == "Y" {
+                result += opponent_value + 3;
+            } else if game_strategy == "X" {
+                let combo = find_combo(lose_combos.clone(), *opponent_value);
+                result += combo.1;
+            } else {
+                let combo = find_combo(win_combos.clone(), *opponent_value);
+                result += combo.1 + 6
+            }
 
-            let result = play_game(player_shape_value, opponent_shape_value);
             all_games_result += result;
         }
     }
