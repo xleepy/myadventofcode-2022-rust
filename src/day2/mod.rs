@@ -27,7 +27,7 @@ use std::collections::HashMap;
 // B < C
 // C < A
 
-fn find_combo(combo: Vec<(i32, i32)>, predict: i32) -> (i32, i32) {
+fn find_combo(combo: &Vec<(i32, i32)>, predict: i32) -> (i32, i32) {
     return combo
         .clone()
         .into_iter()
@@ -38,8 +38,8 @@ fn find_combo(combo: Vec<(i32, i32)>, predict: i32) -> (i32, i32) {
 pub fn run() {
     let lines = filereader::read_lines("./src/day2/input.txt").expect("Cannot parse file");
     let results_map = HashMap::from([("A", 1), ("B", 2), ("C", 3)]);
-    let lose_combos = Vec::from([(1, 3), (2, 1), (3, 2)]);
-    let win_combos = Vec::from([(1, 2), (2, 3), (3, 1)]);
+    let lose_combos = vec![(1, 3), (2, 1), (3, 2)];
+    let win_combos = vec![(1, 2), (2, 3), (3, 1)];
 
     let mut all_games_result = 0;
     for line in lines {
@@ -55,10 +55,10 @@ pub fn run() {
             if game_strategy == "Y" {
                 result += opponent_value + 3;
             } else if game_strategy == "X" {
-                let combo = find_combo(lose_combos.clone(), *opponent_value);
+                let combo = find_combo(&lose_combos, *opponent_value);
                 result += combo.1;
             } else {
-                let combo = find_combo(win_combos.clone(), *opponent_value);
+                let combo = find_combo(&win_combos, *opponent_value);
                 result += combo.1 + 6
             }
 
