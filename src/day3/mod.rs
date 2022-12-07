@@ -8,7 +8,6 @@ pub fn run() {
     let chunks = lines.chunks(3);
 
     for chunk in chunks {
-        println!("chunk {:?} ", chunk);
         let first = chunk
             .first()
             .clone()
