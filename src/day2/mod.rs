@@ -43,27 +43,24 @@ pub fn run() {
 
     let mut all_games_result = 0;
     for line in lines {
-        if line.is_ok() {
-            let row = line.unwrap();
-            let columns: Vec<&str> = row.split(" ").collect();
-            let game_strategy = columns.get(1).expect("cannot find strategy").trim();
+        let columns: Vec<&str> = line.split(" ").collect();
+        let game_strategy = columns.get(1).expect("cannot find strategy").trim();
 
-            let opponent_value = results_map
-                .get(columns.first().unwrap())
-                .expect("Cannot get value");
-            let mut result = 0;
-            if game_strategy == "Y" {
-                result += opponent_value + 3;
-            } else if game_strategy == "X" {
-                let combo = find_combo(&lose_combos, *opponent_value);
-                result += combo.1;
-            } else {
-                let combo = find_combo(&win_combos, *opponent_value);
-                result += combo.1 + 6
-            }
-
-            all_games_result += result;
+        let opponent_value = results_map
+            .get(columns.first().unwrap())
+            .expect("Cannot get value");
+        let mut result = 0;
+        if game_strategy == "Y" {
+            result += opponent_value + 3;
+        } else if game_strategy == "X" {
+            let combo = find_combo(&lose_combos, *opponent_value);
+            result += combo.1;
+        } else {
+            let combo = find_combo(&win_combos, *opponent_value);
+            result += combo.1 + 6
         }
+
+        all_games_result += result;
     }
 
     println!("day 2 {:?} ", all_games_result);

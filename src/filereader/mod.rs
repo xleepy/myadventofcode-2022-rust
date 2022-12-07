@@ -1,7 +1,7 @@
 use std::fs;
 use std::fs::File;
 use std::io::Result;
-use std::io::{self, BufRead, BufReader};
+use std::io::{self, BufRead};
 
 pub fn read(path: &str) -> Result<File> {
     let path = fs::canonicalize(path).expect("File not found");
@@ -9,8 +9,12 @@ pub fn read(path: &str) -> Result<File> {
     Ok(file)
 }
 
-pub fn read_lines(path: &str) -> Result<std::io::Lines<BufReader<File>>> {
+pub fn read_lines(path: &str) -> Result<Vec<String>> {
     let file = read(path).expect("Issues with opening file");
-    let lines = io::BufReader::new(file).lines();
+    let lines: Vec<String> = io::BufReader::new(file)
+        .lines()
+        .filter(|x| x.is_ok())
+        .map(|x| x.unwrap())
+        .collect();
     Ok(lines)
 }

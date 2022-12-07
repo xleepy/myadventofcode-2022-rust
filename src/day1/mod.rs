@@ -6,15 +6,12 @@ pub fn run() {
     let mut elves: Vec<i32> = Vec::new();
     let mut current_sum = 0;
     for line in lines {
-        if line.is_ok() {
-            let current_line = line.unwrap();
-            if current_line.is_empty() {
-                elves.push(current_sum);
-                current_sum = 0;
-            } else {
-                let parsed = current_line.parse::<i32>().unwrap();
-                current_sum += parsed;
-            }
+        if line.is_empty() {
+            elves.push(current_sum);
+            current_sum = 0;
+        } else {
+            let parsed = line.parse::<i32>().unwrap();
+            current_sum += parsed;
         }
     }
     let mut collected: Vec<i32> = elves.clone();
